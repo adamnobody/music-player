@@ -1,2 +1,2 @@
 # music-player
-Android MP3-player on Kivy Python
+Android MP3-player on Java (Android Studio).
