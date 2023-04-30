@@ -30,10 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_REQUEST = 1;
     MediaPlayer mp = new MediaPlayer();
     Boolean musicIsPlaying = false;
+    Boolean interfaceVisible = false;
     ArrayList<String> stringArrayList;
-//    ArrayList<String> locationsArrayList;
-//    ArrayList<String> arrayList;
-//    String[] locationsArray;
     String locationsString = "";
     String[] musicParts;
 
@@ -42,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> stringArrayAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -66,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void doStuff() {
+    public void doStuff()
+    {
         musicListView = (ListView) findViewById(R.id.musicListView);
         stringArrayList = new ArrayList<>();
         getMusic();
@@ -85,41 +85,61 @@ public class MainActivity extends AppCompatActivity {
 //                for (String foo: musicParts) {
 //                    Log.i("debugs", foo);
 //                }
-                playMusic(position);
+                if(musicIsPlaying == false){
+                    playMusic(position);
+                }
+                else if (musicIsPlaying) {
+                    stopMusic(position);
+                }
             }
         });
     }
 
-    private void playMusic(Integer position) {
-        if(musicIsPlaying) {
-            Toast.makeText(this, "Пауза", Toast.LENGTH_SHORT).show();
-            mp.pause();
-            mp.release();
+    private void playMusic(Integer position)
+    {
+        if(musicIsPlaying)
+        {
+            Toast.makeText(this, "Играем...", Toast.LENGTH_SHORT).show();
+            mp.start();
+            musicIsPlaying = true;
         }
-        try {
+        try
+        {
             mp = new MediaPlayer();
             mp.setDataSource(musicParts[position]);
             mp.prepare();
             mp.start();
             musicIsPlaying = true;
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
 
-    public void getMusic() {
+    private void stopMusic(Integer position)
+    {
+        Toast.makeText(this, "Пауза...", Toast.LENGTH_SHORT).show();
+        mp.pause();
+        musicIsPlaying = false;
+    }
+
+    public void getMusic()
+    {
         ContentResolver contentResolver = getContentResolver();
         Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
 
-        if (songCursor != null && songCursor.moveToFirst()) {
+        if (songCursor != null && songCursor.moveToFirst())
+        {
             int songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
             int songArtist = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
             int songLocation = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
 
             int counter = 0;
 
-            do {
+            do
+            {
                 String currentTitle = songCursor.getString(songTitle);
                 String currentArtist = songCursor.getString(songArtist);
                 String currentLocation = songCursor.getString(songLocation);
@@ -144,17 +164,23 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSION_REQUEST: {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        switch (requestCode)
+        {
+            case MY_PERMISSION_REQUEST:
+            {
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
 
                     if(ContextCompat.checkSelfPermission(MainActivity.this,
-                            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+                    {
                         Toast.makeText(this, "Разрешение получено!", Toast.LENGTH_SHORT).show();
                         doStuff();
-                    } else {
+                    }
+                    else
+                    {
                         Toast.makeText(this, "Ошибка при получении разрешения!", Toast.LENGTH_SHORT).show();
                         finish();
                     }
