@@ -95,6 +95,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void playStop(View view)
+    {
+        
+    }
+
     private void playMusic(Integer position)
     {
         if(musicIsPlaying)
