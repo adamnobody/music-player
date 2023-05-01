@@ -19,7 +19,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -29,14 +31,14 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_REQUEST = 1;
     MediaPlayer mp = new MediaPlayer();
+    ImageButton playButton, pauseButton;
+    TextView songLabel;
     Boolean musicIsPlaying = false;
-    Boolean interfaceVisible = false;
     ArrayList<String> stringArrayList;
     String locationsString = "";
+    String songPlay = "";
     String[] musicParts;
-
     ListView musicListView;
-
     ArrayAdapter<String> stringArrayAdapter;
 
     @Override
@@ -44,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        playButton = findViewById(R.id.playButton);
+        pauseButton = findViewById(R.id.pauseButton);
+
+        songLabel = findViewById(R.id.songLabel);
+
+        receiveSong();
 
         if(ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED)
@@ -62,7 +71,12 @@ public class MainActivity extends AppCompatActivity {
         } else {
             doStuff();
         }
+    }
 
+    private void receiveSong()
+    {
+        Intent i = this.getIntent();
+        songPlay = i.getStringExtra("SONG_KEY");
     }
 
     public void doStuff()
@@ -73,40 +87,61 @@ public class MainActivity extends AppCompatActivity {
         stringArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stringArrayList);
         musicListView.setAdapter(stringArrayAdapter);
 
-        musicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        musicListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // open music player to play desired song
-                Log.i("debugparent", locationsString);
-//                Log.i("debugparent", Integer.toString(position));
-//                Log.i("debugparent", String.valueOf(position));
-//                Log.i("debugparent", musicParts[(int) id]);
-//                Log.i("debugparent", Array.toString(musicParts));
-//                for (String foo: musicParts) {
-//                    Log.i("debugs", foo);
-//                }
-                if(musicIsPlaying == false){
-                    playMusic(position);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                try
+                {
+                    Intent i = new Intent();
+                    i.putExtra("SONG_KEY", musicParts[position]);
+                    startActivity(i);
                 }
-                else if (musicIsPlaying) {
-                    stopMusic(position);
+                catch (Exception e)
+                {
+                    e.printStackTrace();
                 }
+
+                playMusic(position);
+                musicIsPlaying = true;
             }
         });
     }
 
-    public void playStop(View view)
+    public void play(View view)
     {
-        
+        if(!musicIsPlaying)
+        {
+            Toast.makeText(this, "Сначала выберите трек из списка", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            mp.start();
+            playButton.setEnabled(false);
+            pauseButton.setEnabled(true);
+        }
+    }
+
+    public void pause(View view)
+    {
+        mp.pause();
+        playButton.setEnabled(true);
+        pauseButton.setEnabled(false);
     }
 
     private void playMusic(Integer position)
     {
-        if(musicIsPlaying)
+        if(!mp.isPlaying())
         {
             Toast.makeText(this, "Играем...", Toast.LENGTH_SHORT).show();
             mp.start();
+            songLabel.setText(songPlay);
             musicIsPlaying = true;
+        }
+        else
+        {
+            mp.pause();
         }
         try
         {
@@ -120,13 +155,6 @@ public class MainActivity extends AppCompatActivity {
         {
             e.printStackTrace();
         }
-    }
-
-    private void stopMusic(Integer position)
-    {
-        Toast.makeText(this, "Пауза...", Toast.LENGTH_SHORT).show();
-        mp.pause();
-        musicIsPlaying = false;
     }
 
     public void getMusic()
@@ -149,17 +177,9 @@ public class MainActivity extends AppCompatActivity {
                 String currentArtist = songCursor.getString(songArtist);
                 String currentLocation = songCursor.getString(songLocation);
 
-//                locationsArrayList.add(currentLocation);
                 stringArrayList.add(currentTitle + "\n" + currentArtist);
                 locationsString += currentLocation;
                 locationsString += "|";
-//                stringArrayList.add(currentLocation);
-//                locationsArray[counter] = currentLocation;
-//                Log.i("currentLocation", currentLocation.getClass().getName());
-//                if(currentLocation instanceof String) {
-//                    Log.i("Stringggggggggggggggg","messageeeeeeeeeeeeeeeeeeeeeee");
-//                    arrayList.add(currentLocation);
-//                }
                 counter++;
             } while (songCursor.moveToNext());
             musicParts = locationsString.split("\\|");
