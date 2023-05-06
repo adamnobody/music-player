@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     tools:context=".MainActivity">
 
     <ListView
@@ -27,8 +28,8 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="64dp"
         android:layout_marginRight="64dp"
-        android:layout_marginBottom="8dp"
         android:gravity="center"
+        android:textColor="#FFFFFF"
         android:text="@string/now_playing"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -45,13 +46,13 @@
         android:layout_height="29dp"
         android:layout_marginStart="64dp"
         android:layout_marginLeft="64dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="64dp"
         android:layout_marginRight="64dp"
         android:gravity="center"
+        android:textColor="#FFFFFF"
         android:text="@string/default_text"
         android:textSize="20sp"
-        android:textStyle="italic|normal"
+        android:textStyle="normal"
         app:fontFamily="sans-serif-medium"
         app:layout_constraintBottom_toTopOf="@+id/musicListView"
         app:layout_constraintEnd_toEndOf="parent"

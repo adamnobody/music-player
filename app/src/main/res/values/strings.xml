@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Музыка</string>
-    <string name="now_playing">Сейчас играет:</string>
-    <string name="default_text">...</string>
+    <string name="now_playing">Список музыки</string>
+    <string name="default_text">с вашего устройства:</string>
 </resources>

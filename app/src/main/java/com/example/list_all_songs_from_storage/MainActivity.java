@@ -52,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
         songLabel = findViewById(R.id.songLabel);
 
-        receiveSong();
-
         if(ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED)
         {
@@ -73,12 +71,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void receiveSong()
-    {
-        Intent i = this.getIntent();
-        songPlay = i.getStringExtra("SONG_KEY");
-    }
-
     public void doStuff()
     {
         musicListView = (ListView) findViewById(R.id.musicListView);
@@ -92,19 +84,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                try
+                if (mp.getCurrentPosition() != position)
                 {
-                    Intent i = new Intent();
-                    i.putExtra("SONG_KEY", musicParts[position]);
-                    startActivity(i);
+                    mp.stop();
+                    playMusic(position);
                 }
-                catch (Exception e)
+                else if (mp.getCurrentPosition() == position)
                 {
-                    e.printStackTrace();
+                    mp.pause();
+                    playButton.setEnabled(true);
+                    pauseButton.setEnabled(false);
+                }
+                else
+                {
+                    playMusic(position);
+                    musicIsPlaying = true;
                 }
 
-                playMusic(position);
-                musicIsPlaying = true;
             }
         });
     }
@@ -136,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
         {
             Toast.makeText(this, "Играем...", Toast.LENGTH_SHORT).show();
             mp.start();
-            songLabel.setText(songPlay);
             musicIsPlaying = true;
         }
         else
