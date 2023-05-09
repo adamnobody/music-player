@@ -2,4 +2,12 @@
     <string name="app_name">Музыка</string>
     <string name="now_playing">Список музыки</string>
     <string name="default_text">с вашего устройства:</string>
+    <string name="eq">EQ</string>
+    <string name="eq_menu">Настройки эквалайзера:</string>
+    <string name="close_eq">Закрыть эквалайзер</string>
+    <string name="eq_1">Низкие частоты:\n</string>
+    <string name="eq_2">Средне-низкие частоты:\n</string>
+    <string name="eq_3">Средние частоты:\n</string>
+    <string name="eq_4">Средне-высокие частоты:\n</string>
+    <string name="eq_5">Высокие частоты:\n</string>
 </resources>

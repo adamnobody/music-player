@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -70,6 +72,11 @@ public class MainActivity extends AppCompatActivity {
             doStuff();
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
     public void doStuff()
     {
@@ -103,6 +110,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void openEQ(MenuItem item)
+    {
+        Intent intent = new Intent(this, EQActivity.class);
+        startActivity(intent);
     }
 
     public void play(View view)
