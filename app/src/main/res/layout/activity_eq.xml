@@ -120,5 +120,11 @@
             android:id="@+id/seekBar5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="@string/saveExit" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

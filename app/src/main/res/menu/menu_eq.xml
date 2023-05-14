@@ -4,10 +4,4 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".EQActivity">
 
-    <item
-        android:id="@+id/closeButton"
-        android:onClick="closeEQ"
-        android:title="@string/close_eq"
-        app:showAsAction="always"/>
-
 </menu>

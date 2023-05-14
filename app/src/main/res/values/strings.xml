@@ -10,4 +10,5 @@
     <string name="eq_3">Средние частоты:\n</string>
     <string name="eq_4">Средне-высокие частоты:\n</string>
     <string name="eq_5">Высокие частоты:\n</string>
+    <string name="saveExit">Сохранить и выйти</string>
 </resources>

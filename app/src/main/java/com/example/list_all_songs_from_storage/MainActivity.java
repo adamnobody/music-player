@@ -1,5 +1,6 @@
 package com.example.list_all_songs_from_storage;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.MediaPlayer;
+import android.media.audiofx.Equalizer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,7 +32,8 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
     private static final int MY_PERMISSION_REQUEST = 1;
     MediaPlayer mp = new MediaPlayer();
     ImageButton playButton, pauseButton;
@@ -114,13 +117,31 @@ public class MainActivity extends AppCompatActivity {
 
     public void openEQ(MenuItem item)
     {
-        Intent intent = new Intent(this, EQActivity.class);
-        startActivity(intent);
+        if (musicIsPlaying)
+        {
+            Intent intent = new Intent(this, EQActivity.class);
+            startActivityForResult(intent, 1);
+        }
+        else
+        {
+            Toast.makeText(this, "Сначала выберите трек из списка", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null)
+        {
+            return;
+        }
+        musicIsPlaying = false;
+        mp.stop();
     }
 
     public void play(View view)
     {
-        if(!musicIsPlaying)
+        if (!mp.isPlaying())
         {
             Toast.makeText(this, "Сначала выберите трек из списка", Toast.LENGTH_SHORT).show();
         }
@@ -141,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void playMusic(Integer position)
     {
-        if(!mp.isPlaying())
+        if (!mp.isPlaying())
         {
             Toast.makeText(this, "Играем...", Toast.LENGTH_SHORT).show();
             mp.start();
@@ -151,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
         {
             mp.pause();
         }
+
         try
         {
             mp = new MediaPlayer();
