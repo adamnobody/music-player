@@ -9,6 +9,7 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.MediaPlayer;
@@ -36,10 +37,11 @@ public class MainActivity extends AppCompatActivity
 {
     private static final int MY_PERMISSION_REQUEST = 1;
     MediaPlayer mp = new MediaPlayer();
-    ImageButton playButton, pauseButton;
+    ImageButton playButton, pauseButton, nextButton, previousButton;
     TextView songLabel;
     Boolean musicIsPlaying = false;
     ArrayList<String> stringArrayList;
+    int currentSong;
     String locationsString = "";
     String songPlay = "";
     String[] musicParts;
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity
 
         playButton = findViewById(R.id.playButton);
         pauseButton = findViewById(R.id.pauseButton);
+        nextButton = findViewById(R.id.nextButton);
+        previousButton = findViewById(R.id.previousButton);
 
         songLabel = findViewById(R.id.songLabel);
 
@@ -110,7 +114,7 @@ public class MainActivity extends AppCompatActivity
                     playMusic(position);
                     musicIsPlaying = true;
                 }
-
+                currentSong = position;
             }
         });
     }
@@ -135,13 +139,11 @@ public class MainActivity extends AppCompatActivity
         {
             return;
         }
-        musicIsPlaying = false;
-        mp.stop();
     }
 
     public void play(View view)
     {
-        if (!mp.isPlaying())
+        if (!musicIsPlaying)
         {
             Toast.makeText(this, "Сначала выберите трек из списка", Toast.LENGTH_SHORT).show();
         }
@@ -160,8 +162,39 @@ public class MainActivity extends AppCompatActivity
         pauseButton.setEnabled(false);
     }
 
+    public void nextSong(View view)
+    {
+        if (!musicIsPlaying)
+        {
+            Toast.makeText(this, "Сначала выберите трек из списка", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            mp.stop();
+            playMusic(currentSong + 1);
+            pauseButton.setEnabled(true);
+            playButton.setEnabled(false);
+        }
+    }
+
+    public void previousSong(View view)
+    {
+        if (!musicIsPlaying)
+        {
+            Toast.makeText(this, "Сначала выберите трек из списка", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            mp.stop();
+            playMusic(currentSong - 1);
+            pauseButton.setEnabled(true);
+            playButton.setEnabled(false);
+        }
+    }
+
     private void playMusic(Integer position)
     {
+        currentSong = position;
         if (!mp.isPlaying())
         {
             Toast.makeText(this, "Играем...", Toast.LENGTH_SHORT).show();
@@ -172,7 +205,6 @@ public class MainActivity extends AppCompatActivity
         {
             mp.pause();
         }
-
         try
         {
             mp = new MediaPlayer();
@@ -227,7 +259,6 @@ public class MainActivity extends AppCompatActivity
             {
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
-
                     if(ContextCompat.checkSelfPermission(MainActivity.this,
                             Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
                     {

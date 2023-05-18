@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="fr1">45</integer>
+    <integer name="fr2">55</integer>
+    <integer name="fr3">50</integer>
+    <integer name="fr4">50</integer>
+    <integer name="fr5">47</integer>
+</resources>

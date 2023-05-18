@@ -1,6 +1,8 @@
 package com.example.list_all_songs_from_storage;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class EQActivity extends AppCompatActivity implements View.OnClickListener
 {
+
     SeekBar seekBar1;
     SeekBar seekBar2;
     SeekBar seekBar3;
@@ -33,6 +36,12 @@ public class EQActivity extends AppCompatActivity implements View.OnClickListene
         seekBar4 = findViewById(R.id.seekBar4);
         seekBar5 = findViewById(R.id.seekBar5);
 
+        seekBar1.setProgress(50);
+        seekBar2.setProgress(50);
+        seekBar3.setProgress(50);
+        seekBar4.setProgress(50);
+        seekBar5.setProgress(50);
+
         saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(this);
     }
@@ -47,11 +56,7 @@ public class EQActivity extends AppCompatActivity implements View.OnClickListene
     public void onClick(View v)
     {
         Intent intent = new Intent();
-        intent.putExtra("freq1", seekBar1.getProgress());
-        intent.putExtra("freq2", seekBar2.getProgress());
-        intent.putExtra("freq3", seekBar3.getProgress());
-        intent.putExtra("freq4", seekBar4.getProgress());
-        intent.putExtra("freq5", seekBar5.getProgress());
+        Toast.makeText(this, "Настройки сохранены", Toast.LENGTH_SHORT).show();
         setResult(RESULT_OK);
         finish();
     }

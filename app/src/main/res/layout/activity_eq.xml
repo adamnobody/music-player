@@ -23,7 +23,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:fontFamily="sans-serif-medium"
-        app:layout_constraintBottom_toTopOf="@+id/songLabel"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -55,6 +55,8 @@
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
+            android:min="0"
+            android:max="100"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -71,6 +73,8 @@
         <SeekBar
             android:id="@+id/seekBar2"
             android:layout_width="match_parent"
+            android:min="0"
+            android:max="100"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -87,6 +91,8 @@
         <SeekBar
             android:id="@+id/seekBar3"
             android:layout_width="match_parent"
+            android:min="0"
+            android:max="100"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -103,6 +109,8 @@
         <SeekBar
             android:id="@+id/seekBar4"
             android:layout_width="match_parent"
+            android:min="0"
+            android:max="100"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -119,6 +127,8 @@
         <SeekBar
             android:id="@+id/seekBar5"
             android:layout_width="match_parent"
+            android:min="0"
+            android:max="100"
             android:layout_height="wrap_content" />
 
         <Button

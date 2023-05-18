@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -30,8 +29,8 @@
         android:layout_marginEnd="64dp"
         android:layout_marginRight="64dp"
         android:gravity="center"
-        android:textColor="#FFFFFF"
         android:text="@string/now_playing"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
         app:fontFamily="sans-serif-medium"
@@ -50,8 +49,8 @@
         android:layout_marginEnd="64dp"
         android:layout_marginRight="64dp"
         android:gravity="center"
-        android:textColor="#FFFFFF"
         android:text="@string/default_text"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="normal"
         app:fontFamily="sans-serif-medium"
@@ -69,7 +68,7 @@
         android:onClick="play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/pauseButton"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/previousButton"
         app:layout_constraintTop_toBottomOf="@+id/musicListView"
         app:srcCompat="@android:drawable/ic_media_play" />
 
@@ -81,11 +80,36 @@
         android:layout_marginBottom="24dp"
         android:onClick="pause"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nextButton"
         app:layout_constraintStart_toEndOf="@+id/playButton"
         app:layout_constraintTop_toBottomOf="@+id/musicListView"
         app:srcCompat="@android:drawable/ic_media_pause" />
 
-    
+    <ImageButton
+        android:id="@+id/previousButton"
+        android:layout_width="82dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="24dp"
+        android:onClick="previousSong"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/musicListView"
+        app:srcCompat="@android:drawable/ic_media_previous" />
+
+    <ImageButton
+        android:id="@+id/nextButton"
+        android:layout_width="82dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="24dp"
+        android:onClick="nextSong"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pauseButton"
+        app:layout_constraintTop_toBottomOf="@+id/musicListView"
+        app:srcCompat="@android:drawable/ic_media_next" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
